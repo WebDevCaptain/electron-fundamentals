@@ -23,12 +23,12 @@ exports.getFileFromUser = () => {
 		properties: ["openFile"],
 		filters: [
 			{
-				name: "Text Files",
-				extensions: ["txt", "text"],
-			},
-			{
 				name: "Markdown Files",
 				extensions: ["md", "mdown", "markdown"],
+			},
+			{
+				name: "Text Files",
+				extensions: ["txt", "text"],
 			},
 		],
 		buttonLabel: "Unveil",
@@ -43,5 +43,6 @@ exports.getFileFromUser = () => {
 
 const openFile = (file) => {
 	const content = fs.readFileSync(file).toString();
+	app.addRecentDocument(file);
 	mainWindow.webContents.send("file-opened", file, content);
 };

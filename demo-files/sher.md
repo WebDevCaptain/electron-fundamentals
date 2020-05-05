@@ -1,3 +1,8 @@
-# Hello Shreyash
+# Shreyash
 
-# How are you ??
+- Software Engineer
+- Polyglot coder
+- Machine Learning Engineer
+- System Admin
+- Site Reliability Engineer
+- UI Developer

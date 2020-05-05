@@ -1,7 +1,13 @@
 const marked = require("marked");
 const { remote, ipcRenderer } = require("electron");
+const path = require("path");
 
 const mainProcess = remote.require("./main.js");
+const currentWindow = remote.getCurrentWindow();
+
+let filePath = "";
+let originalContent = "";
+let isEdited = false;
 
 const markdownView = document.querySelector("#markdown");
 const htmlView = document.querySelector("#html");
@@ -17,9 +23,30 @@ const renderMarkdownToHtml = (markdown) => {
 	htmlView.innerHTML = marked(markdown, { sanitize: true });
 };
 
+const updateUserInterface = (isEdited) => {
+	let title = "Fire Sale";
+	if (filePath) {
+		title = `${path.basename(filePath)} - ${title}`;
+	}
+
+	if (isEdited) {
+		title = `${title} (Unsaved)`;
+	}
+
+	currentWindow.setRepresentedFilename(filePath); // MacOS specific UI updates
+	currentWindow.setDocumentEdited(isEdited); // MacOS specific UI updates
+
+	saveMarkdownButton.disabled = !isEdited;
+	revertButton.disabled = !isEdited;
+
+	currentWindow.setTitle(title);
+};
+
 markdownView.addEventListener("keyup", (event) => {
 	const currentContent = event.target.value;
+
 	renderMarkdownToHtml(currentContent);
+	updateUserInterface(currentContent !== originalContent);
 });
 
 openFileButton.addEventListener("click", () => {
@@ -27,6 +54,11 @@ openFileButton.addEventListener("click", () => {
 });
 
 ipcRenderer.on("file-opened", (event, file, content) => {
+	filePath = file;
+	originalContent = content;
+
 	markdownView.value = content;
 	renderMarkdownToHtml(content);
+
+	updateUserInterface();
 });
