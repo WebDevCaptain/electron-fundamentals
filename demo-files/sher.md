@@ -6,3 +6,6 @@
 - System Admin
 - Site Reliability Engineer
 - UI Developer
+- Database Admin
+- GraphQL APIs
+- REST architecture
