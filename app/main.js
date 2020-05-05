@@ -92,15 +92,32 @@ const template = [
 		submenu: [
 			{
 				label: "Open File",
+				accelerator: "CommandOrControl+O",
 				click() {
-					console.log("Open File was clicked");
+					exports.getFileFromUser();
+				},
+			},
+			{
+				label: "Copy",
+				role: "copy",
+			},
+			{
+				label: "Save File",
+				accelerator: "CommandOrControl+S",
+				click() {
+					mainWindow.webContents.send("save-markdown");
+				},
+			},
+			{
+				label: "Save HTML",
+				accelerator: "CommandOrControl+M",
+				click() {
+					mainWindow.webContents.send("save-html");
 				},
 			},
 			{
 				label: `Quit`,
-				click() {
-					app.quit();
-				},
+				role: "quit",
 			},
 		],
 	},
