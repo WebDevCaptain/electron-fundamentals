@@ -4,7 +4,7 @@
   "description": "A Frontend Masters Example Application",
   "main": "app/main.js",
   "dependencies": {
-    "electron": "^8.2.5",
+    "electron": "^15.5.5",
     "marked": "^0.5.2"
   },
   "devDependencies": {
